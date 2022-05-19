@@ -1,11 +1,27 @@
 import * as WebBrowser from "expo-web-browser";
+import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-
 import Colors from "../constants/Colors";
+import { getMovie } from "../services/ExternalAPIService";
 import { MonoText } from "./StyledText";
 import { Text, View } from "./Themed";
 
-export default function EditScreenInfo({ path }: { path: string }) {
+interface Props {
+  path: string;
+}
+
+export const EditScreenInfo = ({ path }: Props) => {
+  const [mediaItem, setMediaItem] = useState<any>("Placeholder");
+
+  const generateMedia = async () => {
+    let media1 = await getMovie();
+    setMediaItem(media1);
+  };
+
+  useEffect(() => {
+    generateMedia();
+  }, []);
+
   return (
     <View>
       <View style={styles.getStartedContainer}>
@@ -21,6 +37,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
           darkColor="rgba(255,255,255,0.05)"
           lightColor="rgba(0,0,0,0.05)">
           <MonoText>{path}</MonoText>
+          <MonoText>{mediaItem.title}</MonoText>
         </View>
 
         <Text
@@ -42,13 +59,13 @@ export default function EditScreenInfo({ path }: { path: string }) {
       </View>
     </View>
   );
-}
+};
 
-function handleHelpPress() {
+const handleHelpPress = () => {
   WebBrowser.openBrowserAsync(
     "https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet"
   );
-}
+};
 
 const styles = StyleSheet.create({
   getStartedContainer: {

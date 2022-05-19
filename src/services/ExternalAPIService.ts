@@ -2,7 +2,7 @@ import axios from "axios";
 import MediaItem from "../models/MediaItem";
 
 // const baseURL: string = `${process.env.REACT_APP_API_URL}` || "";
-const tmdbKey: string = `${process.env.REACT_APP_TMDB_KEY}` || "";
+const tmdbKey: string = "d75ea2e0f7ab586000d474140bf8b72d";
 const lastFMKey: string = `${process.env.REACT_APP_LASTFM_KEY}` || "";
 const rawGKey: string = `${process.env.REACT_APP_RAWG_KEY}` || "";
 
