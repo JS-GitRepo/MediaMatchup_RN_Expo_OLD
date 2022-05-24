@@ -1,8 +1,15 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Text,
+  ScrollView,
+} from "react-native";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
+import { MonoText } from "./StyledText";
 import { View } from "./Themed";
 
 interface Props {
@@ -26,8 +33,8 @@ Props) => {
   const [title2, setTitle2] = useState<string>();
   const [subtitle1, setSubtitle1] = useState<string>();
   const [subtitle2, setSubtitle2] = useState<string>();
-  const [mainImg1, setMainImg1] = useState<string>();
-  const [mainImg2, setMainImg2] = useState<string>();
+  const [mainImg1, setMainImg1] = useState<any>();
+  const [mainImg2, setMainImg2] = useState<any>();
   const [backgroundImg1, setBackgroundImg1] = useState<string>();
   const [backgroundImg2, setBackgroundImg2] = useState<string>();
   const [mediaCategory1, setMediaCategory1] = useState<string>();
@@ -36,7 +43,6 @@ Props) => {
   const [loadingImages, setLoadingImages] = useState<string[]>([]);
   const [imagesAreLoaded, setImagesAreLoaded] = useState<boolean>(false);
   const imageLoadedCounter = useRef(0);
-  const [media1Img, setMedia1Img] = useState(loadingImage);
 
   const constructMedia = async () => {
     setTitle1(matchup.media1.title);
@@ -90,16 +96,29 @@ Props) => {
 
   useEffect(() => {
     if (!isInitialRender) {
-      setMedia1Img({
+      setMainImg1({
         uri: matchup.media1.artImg,
+      });
+      setMainImg2({
+        uri: matchup.media2.artImg,
       });
     }
   }, [matchup]);
 
   return (
-    <View>
-      <Image style={styles.media1Image} source={media1Img}></Image>
-    </View>
+    <ScrollView>
+      <View>
+        <Image style={styles.media1Image} source={mainImg1}></Image>
+        <Text style={styles.titleText}>TITLE WORKS</Text>
+        <Text style={styles.subtitleText}>Subtitle goes here</Text>
+      </View>
+
+      <View>
+        <Image style={styles.media1Image} source={mainImg2}></Image>
+        <Text style={styles.titleText}>TITLE2 WORKS</Text>
+        <Text style={styles.subtitleText}>Subtitle 2 goes here</Text>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -107,6 +126,18 @@ const styles = StyleSheet.create({
   media1Image: {
     width: 300,
     height: 300,
+  },
+  titleText: {
+    fontSize: 17,
+    lineHeight: 50,
+    color: "white",
+    textAlign: "center",
+  },
+  subtitleText: {
+    fontSize: 15,
+    lineHeight: 50,
+    color: "white",
+    textAlign: "center",
   },
 });
 
