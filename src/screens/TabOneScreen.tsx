@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
-import { EditScreenInfo } from "../components/EditScreenInfo";
+import { MatchupContents } from "../components/MatchupContents";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../../types";
+import React from "react";
 
 export default function TabOneScreen({
   navigation,
@@ -14,7 +15,7 @@ export default function TabOneScreen({
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      <MatchupContents path="/screens/TabOneScreen.tsx" />
     </View>
   );
 }
