@@ -1,5 +1,5 @@
 import * as WebBrowser from "expo-web-browser";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import Matchup from "../models/Matchup";
@@ -14,13 +14,14 @@ import {
 import { MonoText } from "./StyledText";
 import { Text, View } from "./Themed";
 import { Image } from "react-native";
+import MatchupCard from "./MatchupCard";
 
 interface Props {
   path: string;
 }
 
 export const MatchupContents = ({ path }: Props) => {
-  const wideChevron = require("../assets/images/wide_chevron.png");
+  const loadingImage = require("../assets/images/loading.svg");
   const defaultMatchup: Matchup = {
     media1: {
       title: "",
@@ -36,7 +37,7 @@ export const MatchupContents = ({ path }: Props) => {
     },
   };
   const [matchup, setMatchup] = useState<Matchup>(defaultMatchup);
-  const [media1Img, setMedia1Img] = useState(wideChevron);
+  const [media1Img, setMedia1Img] = useState(loadingImage);
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
 
   const getMediaArray = [
@@ -100,32 +101,22 @@ export const MatchupContents = ({ path }: Props) => {
     setIsInitialRender(false);
   }, []);
 
-  useEffect(() => {
-    if (!isInitialRender) {
-      setMedia1Img({
-        uri: matchup.media1.artImg,
-      });
-    }
-  }, [matchup]);
-
   return (
     <View>
       <View style={styles.getStartedContainer}>
         <Text
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
+          darkColor="rgba(255,255,255,0.8)"
+        >
           Open up the code for this screen:
         </Text>
-
+        <MatchupCard matchup={matchup} />
         <View
           style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
           darkColor="rgba(255,255,255,0.05)"
-          lightColor="rgba(0,0,0,0.05)">
-          <MonoText>{matchup.media1.title}</MonoText>
-        </View>
-
-        <Image source={media1Img} style={styles.media1Image}></Image>
+          lightColor="rgba(0,0,0,0.05)"
+        ></View>
       </View>
 
       <View style={styles.helpContainer}>
