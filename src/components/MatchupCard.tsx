@@ -5,12 +5,11 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  View,
   ScrollView,
+  ImageBackground,
 } from "react-native";
 import Matchup from "../models/Matchup";
-import MediaItem from "../models/MediaItem";
-import { MonoText } from "./StyledText";
-import { View } from "./Themed";
 
 interface Props {
   matchup: Matchup;
@@ -35,8 +34,8 @@ Props) => {
   const [subtitle2, setSubtitle2] = useState<string>();
   const [mainImg1, setMainImg1] = useState<any>();
   const [mainImg2, setMainImg2] = useState<any>();
-  const [backgroundImg1, setBackgroundImg1] = useState<string>();
-  const [backgroundImg2, setBackgroundImg2] = useState<string>();
+  const [backgroundImg1, setBackgroundImg1] = useState<any>();
+  const [backgroundImg2, setBackgroundImg2] = useState<any>();
   const [mediaCategory1, setMediaCategory1] = useState<string>();
   const [mediaCategory2, setMediaCategory2] = useState<string>();
   // Wait for all images to load before showing them
@@ -51,14 +50,22 @@ Props) => {
     setSubtitle2(matchup.media2.subtitle);
     setMediaCategory1(matchup.media1.category);
     setMediaCategory2(matchup.media2.category);
-    setMainImg1(matchup.media1.artImg);
-    setMainImg2(matchup.media2.artImg);
-    setBackgroundImg1(
-      matchup.media1.artImg2 ? matchup.media1.artImg2 : matchup.media1.artImg
-    );
-    setBackgroundImg2(
-      matchup.media2.artImg2 ? matchup.media2.artImg2 : matchup.media2.artImg
-    );
+    setMainImg1({
+      uri: matchup.media1.artImg,
+    });
+    setMainImg2({
+      uri: matchup.media2.artImg,
+    });
+    setBackgroundImg1({
+      uri: matchup.media1.artImg2
+        ? matchup.media1.artImg2
+        : matchup.media1.artImg,
+    });
+    setBackgroundImg2({
+      uri: matchup.media2.artImg2
+        ? matchup.media2.artImg2
+        : matchup.media2.artImg,
+    });
     if (
       matchup.media1.category === "Video Game" ||
       matchup.media1.category === "Film" ||
@@ -94,48 +101,80 @@ Props) => {
 
   useEffect(() => {}, [imagesAreLoaded]);
 
-  useEffect(() => {
-    if (!isInitialRender) {
-      setMainImg1({
-        uri: matchup.media1.artImg,
-      });
-      setMainImg2({
-        uri: matchup.media2.artImg,
-      });
-    }
-  }, [matchup]);
+  useEffect(() => {}, [matchup]);
 
   return (
-    <ScrollView>
-      <View>
-        <Image style={styles.media1Image} source={mainImg1}></Image>
-        <Text style={styles.titleText}>TITLE WORKS</Text>
-        <Text style={styles.subtitleText}>Subtitle goes here</Text>
-      </View>
+    <View style={styles.matchupContainer}>
+      <ImageBackground
+        style={styles.mediaItemBg}
+        source={backgroundImg1}
+        resizeMode="cover"
+        blurRadius={1}>
+        <View style={styles.mediaItemContainer}>
+          <View style={styles.mediaImgContainer}>
+            <Image style={styles.mediaImage} source={mainImg1}></Image>
+          </View>
+          <View style={styles.mediaTextContainer}>
+            <Text style={styles.titleText}>{title1}</Text>
+            <Text style={styles.subtitleText}>{subtitle1}</Text>
+            <Text style={styles.subtitleText}>{`(${mediaCategory1})`}</Text>
+          </View>
+        </View>
+      </ImageBackground>
 
-      <View>
-        <Image style={styles.media1Image} source={mainImg2}></Image>
-        <Text style={styles.titleText}>TITLE2 WORKS</Text>
-        <Text style={styles.subtitleText}>Subtitle 2 goes here</Text>
-      </View>
-    </ScrollView>
+      <ImageBackground
+        style={styles.mediaItemBg}
+        source={backgroundImg2}
+        resizeMode="cover"
+        blurRadius={1}>
+        <View style={styles.mediaItemContainer}>
+          <View style={styles.mediaImgContainer}>
+            <Image style={styles.mediaImage} source={mainImg2}></Image>
+          </View>
+          <View style={styles.mediaTextContainer}>
+            <Text style={styles.titleText}>{title2}</Text>
+            <Text style={styles.subtitleText}>{subtitle2}</Text>
+            <Text style={styles.subtitleText}>{`(${mediaCategory2})`}</Text>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  media1Image: {
-    width: 300,
+  matchupContainer: {
+    flexDirection: "row",
+    width: "100%",
+    height: "100%",
+  },
+  mediaItemContainer: {
+    flex: 1,
+    flexDirection: "column",
+    height: "100%",
+    padding: 10,
+    backgroundColor: "rgba(0, 40, 60, 0.4)",
+  },
+  mediaTextContainer: {
+    flex: 1,
+    width: 175,
+  },
+  mediaImgContainer: {
+    flex: 2,
+    justifyContent: "center",
+  },
+  mediaItemBg: {},
+  mediaImage: {
+    width: 180,
     height: 300,
   },
   titleText: {
     fontSize: 17,
-    lineHeight: 50,
     color: "white",
     textAlign: "center",
   },
   subtitleText: {
     fontSize: 15,
-    lineHeight: 50,
     color: "white",
     textAlign: "center",
   },
