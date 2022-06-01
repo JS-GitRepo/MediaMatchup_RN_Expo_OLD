@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useFonts } from "expo-font";
 import { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
@@ -82,6 +83,10 @@ Props) => {
     }
   };
 
+  useFonts({
+    "Bangers-Regular": require("../assets/fonts/Bangers-Regular.ttf"),
+  });
+
   useEffect(() => {
     setIsInitialRender(false);
   }, []);
@@ -115,9 +120,15 @@ Props) => {
             <Image style={styles.mediaImage} source={mainImg1}></Image>
           </View>
           <View style={styles.mediaTextContainer}>
-            <Text style={styles.titleText}>{title1}</Text>
-            <Text style={styles.subtitleText}>{subtitle1}</Text>
-            <Text style={styles.subtitleText}>{`(${mediaCategory1})`}</Text>
+            <Text style={[styles.allText, styles.titleText]}>{title1}</Text>
+            <Text style={[styles.allText, styles.subtitleText]}>
+              {subtitle1}
+            </Text>
+            <Text
+              style={[
+                styles.allText,
+                styles.subtitleText,
+              ]}>{`(${mediaCategory1})`}</Text>
           </View>
         </View>
       </ImageBackground>
@@ -126,15 +137,21 @@ Props) => {
         style={styles.mediaItemBg}
         source={backgroundImg2}
         resizeMode="cover"
-        blurRadius={1}>
+        blurRadius={2}>
         <View style={styles.mediaItemContainer}>
           <View style={styles.mediaImgContainer}>
             <Image style={styles.mediaImage} source={mainImg2}></Image>
           </View>
           <View style={styles.mediaTextContainer}>
-            <Text style={styles.titleText}>{title2}</Text>
-            <Text style={styles.subtitleText}>{subtitle2}</Text>
-            <Text style={styles.subtitleText}>{`(${mediaCategory2})`}</Text>
+            <Text style={[styles.allText, styles.titleText]}>{title2}</Text>
+            <Text style={[styles.allText, styles.subtitleText]}>
+              {subtitle2}
+            </Text>
+            <Text
+              style={[
+                styles.allText,
+                styles.subtitleText,
+              ]}>{`(${mediaCategory2})`}</Text>
           </View>
         </View>
       </ImageBackground>
@@ -168,8 +185,11 @@ const styles = StyleSheet.create({
     width: 180,
     height: 300,
   },
+  allText: {
+    fontFamily: "Bangers-Regular",
+  },
   titleText: {
-    fontSize: 17,
+    fontSize: 20,
     color: "white",
     textAlign: "center",
   },
