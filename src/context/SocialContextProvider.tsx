@@ -1,57 +1,38 @@
-import { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from "react-native-google-signin";
+import { GoogleAuthProvider, signInWithCredential, User } from "firebase/auth";
+import { ReactNode, useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
+import SocialContext from "./SocialContext";
+import { auth } from "../firebaseConfig";
+import * as Google from "expo-auth-session/providers/google";
+import React from "react";
 
-import "./SocialContextProvider.css";
+interface Props {
+  children: ReactNode;
+}
 
-const SocialContextProvider = () => {
-  const [loggedIn, setloggedIn] = useState(false);
-  const [userInfo, setuserInfo] = useState([]);
-  const signIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const { accessToken, idToken } = await GoogleSignin.signIn();
-      // ^^ Line 17 will be utilized when authentication process is completed.
-      // Should be functional after using "import auth from '@react-native-firebase/auth';"
-      setloggedIn(true);
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        alert("Cancel");
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        alert("Signin in progress");
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        alert("PLAY_SERVICES_NOT_AVAILABLE");
-      } else {
-        alert("Oops. Something went wrong.");
-      }
-    }
-  };
-  const signOut = async () => {
-      try {
-          await GoogleSignin.revokeAccess();
-          await GoogleSignin.signOut();
-          setloggedIn(false);
-          setuserInfo([]);
-      } catch (error) {
-          console.error(error)
-      }
-  }
+const SocialContextProvider = ({ children }: Props) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: "Your-Web-Client-ID.apps.googleusercontent.com",
+  });
+
   useEffect(() => {
-      GoogleSignin.configure({
-          scopes: ['email'],
-          webClientId: 'AIzaSyB27Fa7JNqtjKj1ZS_B_1-LyOGqzlQjGrM.apps.googleusercontent.com',
-          // ^^ Should be relevant later in the guide (changed to Firebase API key. Might be wrong! Who knows?)
-          offlineAccess: true.
-      });
+    // useEffect to only register once at start
+    return auth.onAuthStateChanged((newUser) => {
+      setUser(newUser);
+    });
   }, []);
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential);
+    }
+  }, [response]);
+
   return (
-    <View style={styles.SocialContextProvider}>
-      SocialContextProvider works
-    </View>
+    <SocialContext.Provider value={{ user }}>{children}</SocialContext.Provider>
   );
 };
 

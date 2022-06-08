@@ -5,6 +5,7 @@ import useCachedResources from "./src/hooks/useCachedResources";
 import useColorScheme from "./src/hooks/useColorScheme";
 import Navigation from "./src/navigation";
 import { useFonts } from "@expo-google-fonts/bangers";
+import SocialContextProvider from "./src/context/SocialContextProvider";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -19,8 +20,10 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+        <SocialContextProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
+        </SocialContextProvider>
       </SafeAreaProvider>
     );
   }

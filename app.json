@@ -17,16 +17,33 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ios.mediamatchup",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mediamatchup",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
-      "favicon": "./src/assets/images/favicon.png"
+      "favicon": "./src/assets/images/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyB27Fa7JNqtjKj1ZS_B_1-LyOGqzlQjGrM",
+          "authDomain": "media-matchup-native.firebaseapp.com",
+          "projectId": "media-matchup-native",
+          "storageBucket": "media-matchup-native.appspot.com",
+          "messagingSenderId": "476495844700",
+          "appId": "1:476495844700:web:1fa23a938863d7ac011d99"
+        }
+      }
+    },
+    "packagerOpts": {
+      "sourceExts": ["cjs"]
     }
   }
 }

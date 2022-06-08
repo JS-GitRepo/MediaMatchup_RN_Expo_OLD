@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "476495844700",
+    "project_id": "media-matchup-native",
+    "storage_bucket": "media-matchup-native.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476495844700:android:8600368fdb9aacb6011d99",
+        "android_client_info": {
+          "package_name": "com.mediamatchup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "476495844700-art0u0n1frlhht9trk0uf3s05f8lqrlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFI2zF_k2IVOhWnpMAv_VvRESXjHoEJPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "476495844700-art0u0n1frlhht9trk0uf3s05f8lqrlh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { MatchupContents } from "../components/MatchupContents";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 import { RootTabScreenProps } from "../../types";
 import React from "react";
 
